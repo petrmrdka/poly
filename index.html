@@ -485,22 +485,23 @@
         }
 
         .language-toggle {
-            border: 1px solid var(--line-strong);
-            background: color-mix(in srgb, var(--bg) 78%, transparent);
+            border: 1px solid var(--fg);
+            background: transparent;
             color: var(--fg);
             cursor: none;
-            padding: 8px 10px;
+            padding: 12px 14px;
             min-width: 54px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Syncopate', sans-serif;
             font-size: 10px;
-            letter-spacing: 0.12em;
+            line-height: 1.45;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
-            transition: border-color 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+            transition: background 0.4s var(--ease), color 0.4s var(--ease);
         }
 
         .language-toggle:hover {
-            border-color: var(--accent);
-            background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+            background: var(--fg);
+            color: var(--bg);
         }
 
         .nav__cta {
