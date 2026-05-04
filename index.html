@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radim Polasek — Conditioning Coach for Elite Athletes</title>
+    <meta name="description"
+        content="Conditioning coach for NHL, KHL and Czech Extraliga players, professional golfers and tennis pros. Based in Ostrava, Czech Republic." />
+
+    <link rel="preload" as="image" href="radim-portrait.jpg" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Inline favicon — prevents 404 -->
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='%237A8C95'%3ER%3C/text%3E%3C/svg%3E">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ============================================================
+     THEME TOKENS — Light (default) and Dark (Nordic)
+     ============================================================ */
+        :root[data-theme="dark"] {
+            --bg: #151817;
+            --bg-2: #101312;
+            --bg-3: #1B1F1E;
+            --fg: #F0EEE8;
+            --fg-mute: #C9C8C1;
+            --line: #2A2F2D;
+            --line-strong: #38403D;
+            --mute: #858B87;
+            --accent: #8EA3A8;
+            --solar: #B97455;
+            --solar-soft: rgba(185, 116, 85, 0.16);
+            --solar-x: 80%;
+            --solar-y: 32%;
+            --grain-blend: overlay;
+            --grain-opacity: 0.06;
+            --photo-bg: #1B1F1E;
+            --gallery-tint: rgba(21, 24, 23, 0.0);
+        }
+
+        :root[data-theme="light"] {
+            --bg: #E7E4DC;
+            --bg-2: #DCDAD2;
+            --bg-3: #D2D1C8;
+            --fg: #171A18;
+            --fg-mute: #3E443F;
+            --line: #C9C5BA;
+            --line-strong: #AAA79D;
+            --mute: #74756D;
+            --accent: #58707A;
+            --solar: #C99062;
+            --solar-soft: rgba(201, 144, 98, 0.18);
+            --solar-x: 82%;
+            --solar-y: 12%;
+            --grain-blend: multiply;
+            --grain-opacity: 0.045;
+            --photo-bg: #D2D1C8;
+            --gallery-tint: rgba(231, 228, 220, 0.0);
+        }
+
+        :root {
+            --ease: cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            transition: background-color 0.5s var(--ease), color 0.5s var(--ease);
+        }
+
+        body {
+            cursor: none;
+        }
+
+        ::selection {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        /* Lock scroll while preloader is active */
+        body.is-loading {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Subtle film grain */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: var(--grain-opacity);
+            mix-blend-mode: var(--grain-blend);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ============================================================
+     PRELOADER — "Monolith OS" / Glitch Storm
+     ============================================================ */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--bg-2);
+            color: var(--fg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+        }
+
+        .preloader__top,
+        .preloader__bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: color-mix(in srgb, var(--fg) 58%, transparent);
+            z-index: 5;
+        }
+
+        .preloader__center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .preloader__title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(36px, 6vw, 88px);
+            line-height: 0.92;
+            letter-spacing: -0.005em;
+            text-align: center;
+            position: relative;
+        }
+
+        .preloader__title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .preloader__counter {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            color: color-mix(in srgb, var(--fg) 72%, transparent);
+        }
+
+        /* Glitch bars — horizontal lines that flicker */
+        .glitch-bars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .glitch-bar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: color-mix(in srgb, var(--accent) 48%, transparent);
+            transform-origin: left center;
+        }
+
+        .glitch-bar.is-thick {
+            height: 2px;
+            background: color-mix(in srgb, var(--fg) 48%, transparent);
+        }
+
+        .glitch-bar.is-accent {
+            background: var(--accent);
+        }
+
+        /* Scanlines */
+        .glitch-scanlines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 3;
+            background-image: repeating-linear-gradient(0deg,
+                    transparent 0px,
+                    transparent 3px,
+                    color-mix(in srgb, var(--fg) 4%, transparent) 3px,
+                    color-mix(in srgb, var(--fg) 4%, transparent) 4px);
+            opacity: 0.6;
+        }
+
+        /* RGB-shift glitch overlay on title */
+        .preloader__title::before,
+        .preloader__title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: inherit;
+            opacity: 0;
+        }
+
+        .preloader__title.is-glitching::before {
+            color: var(--accent);
+            opacity: 0.9;
+            transform: translate(-2px, 0);
+            mix-blend-mode: screen;
+        }
+
+        .preloader__title.is-glitching::after {
+            color: var(--solar);
+            opacity: 0.7;
+            transform: translate(2px, 0);
+            mix-blend-mode: screen;
+        }
+
+        /* Reveal split — dvě poloviny se rozjedou na konci preloaderu.
+     Fungují jako překryv obrazovky který se rozdělí na dvě půlky a uhne pryč. */
+        .preloader__split-top,
+        .preloader__split-bottom {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: var(--bg-2);
+            z-index: 6;
+            pointer-events: none;
+            /* Skryté na začátku - není potřeba zakrývat preloader, ten už má vlastní bg */
+            opacity: 0;
+        }
+
+        .preloader__split-top {
+            top: 0;
+        }
+
+        .preloader__split-bottom {
+            bottom: 0;
+        }
+
+        .preloader__progress {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            height: 1px;
+            background: color-mix(in srgb, var(--fg) 12%, transparent);
+            z-index: 5;
+        }
+
+        .preloader__progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--solar));
+        }
+
+        /* ============================================================
+     CUSTOM CURSOR
+     ============================================================ */
+        .cursor-dot,
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            will-change: transform;
+        }
+
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            margin-left: -3px;
+            margin-top: -3px;
+        }
+
+        .cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #ffffff;
+            border-radius: 50%;
+            margin-left: -18px;
+            margin-top: -18px;
+            transition: width 0.35s var(--ease), height 0.35s var(--ease),
+                margin 0.35s var(--ease), border-color 0.35s var(--ease);
+        }
+
+        .cursor-ring.is-hover {
+            width: 64px;
+            height: 64px;
+            margin-left: -32px;
+            margin-top: -32px;
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 900px),
+        (pointer: coarse) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor-dot,
+            .cursor-ring {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+        .font-display {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            letter-spacing: -0.005em;
+            line-height: 0.88;
+            text-transform: uppercase;
+        }
+
+        .font-syn {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mute);
+            font-weight: 400;
+        }
+
+        .accent {
+            color: var(--accent);
+        }
+
+        /* ============================================================
+     NAV
+     ============================================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, transparent) 0%, transparent 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: background 0.4s var(--ease);
+        }
+
+        .nav__mark {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+        .nav__mark span {
+            color: var(--accent);
+        }
+
+        .nav__menu {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav__menu a {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fg);
+            text-decoration: none;
+            opacity: 0.75;
+            transition: opacity 0.4s var(--ease);
+        }
+
+        .nav__menu a:hover {
+            opacity: 1;
+        }
+
+        .nav__right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 24px;
+            border: 1px solid var(--fg);
+            border-radius: 999px;
+            position: relative;
+            background: transparent;
+            cursor: none;
+            padding: 0;
+            transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+        }
+
+        .theme-toggle__knob {
+            position: absolute;
+            top: 50%;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: var(--fg);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            transition: left 0.4s var(--ease), background 0.4s var(--ease);
+        }
+
+        :root[data-theme="light"] .theme-toggle__knob {
+            left: 23px;
+            background: var(--accent);
+        }
+
+        .nav__cta {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            border: 1px solid var(--fg);
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--fg);
+            transition: background 0.4s var(--ease), color 0.4s var(--ease);
+        }
+
+        .nav__cta:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        /* ============================================================
+     HERO
+     ============================================================ */
+        .hero {
+            min-height: 100vh;
+            padding: 110px 40px 50px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 30px;
+            position: relative;
+            background:
+                radial-gradient(circle at var(--solar-x) var(--solar-y), var(--solar-soft), transparent 34%),
+                linear-gradient(180deg, color-mix(in srgb, var(--bg) 94%, var(--solar) 6%) 0%, var(--bg) 62%);
+        }
+
+        .hero__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--mute);
+        }
+
+        .hero__top .accent-bar {
+            display: inline-block;
+            width: 28px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--solar), var(--accent));
+            vertical-align: middle;
+            margin-right: 12px;
+        }
+
+        /* Hlavní hero: jméno vlevo, fotka vpravo
+     Fotka je MENŠÍ a obklopená designovými prvky */
+        .hero__main {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 80px;
+            align-items: stretch;
+        }
+
+        .hero__title-wrap {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100%;
+        }
+
+        .hero__title h1 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            /* MENŠÍ jméno aby se dalo přečíst i s rolí */
+            font-size: clamp(56px, 9.5vw, 160px);
+            line-height: 0.86;
+            letter-spacing: -0.015em;
+            margin: 0;
+        }
+
+        .hero__title h1 .row {
+            display: block;
+            overflow: hidden;
+            padding: 0.04em 0;
+        }
+
+        .hero__title h1 .row>span {
+            display: block;
+            will-change: transform;
+        }
+
+        /* Wrapper pro fotku + okolní design prvky */
+        .hero__portrait-frame {
+            position: relative;
+            align-self: center;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            padding: 40px 30px 30px 30px;
+        }
+
+        /* Offset rámeček vlevo nahoře */
+        .hero__portrait-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70%;
+            height: 60%;
+            border-top: 1px solid color-mix(in srgb, var(--accent) 75%, var(--solar) 25%);
+            border-left: 1px solid color-mix(in srgb, var(--accent) 75%, var(--solar) 25%);
+            pointer-events: none;
+        }
+
+        /* Offset rámeček vpravo dole */
+        .hero__portrait-frame::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 70%;
+            height: 60%;
+            border-bottom: 1px solid var(--line-strong);
+            border-right: 1px solid var(--line-strong);
+            pointer-events: none;
+        }
+
+        /* Číslo "01" v rohu */
+        .hero__portrait-num {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            z-index: 4;
+            background: var(--bg);
+            padding: 2px 6px;
+        }
+
+        /* Malý label vpravo dole */
+        .hero__portrait-meta {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            color: var(--mute);
+            z-index: 4;
+            background: var(--bg);
+            padding: 2px 6px;
+            text-transform: uppercase;
+        }
+
+        /* Vertikální text vlevo od fotky */
+        .hero__portrait-vertical {
+            position: absolute;
+            top: 50%;
+            left: -8px;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left center;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 8px;
+            letter-spacing: 0.3em;
+            color: var(--mute);
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 4;
+        }
+
+        /* Samotná fotka (teď MENŠÍ) */
+        .hero__portrait {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            background: var(--photo-bg);
+            overflow: hidden;
+            border: 1px solid var(--line);
+        }
+
+        .hero__portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* Vnitřní dekorativní rámeček */
+        .hero__portrait::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid var(--line-strong);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .hero__portrait::after {
+            content: "PORTRAIT // 4:5";
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            color: var(--mute);
+            z-index: 3;
+        }
+
+        .hero__portrait.has-image::before,
+        .hero__portrait.has-image::after {
+            display: none;
+        }
+
+        /* Role popisek pod jménem - zarovnaný DOLEVA */
+        .hero__role {
+            margin-top: 28px;
+        }
+
+        .hero__role-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(24px, 3.2vw, 44px);
+            line-height: 1;
+            letter-spacing: -0.005em;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        .hero__role-text small {
+            display: block;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            color: var(--mute);
+            margin-top: 14px;
+        }
+
+        /* Centrovaný info pruh */
+        .hero__band {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 28px 40px;
+            margin: 0 -40px;
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .hero__stat {
+            flex: 1 1 220px;
+            max-width: 280px;
+            text-align: center;
+        }
+
+        .hero__stat .label {
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .hero__stat .value {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(18px, 1.5vw, 22px);
+            line-height: 1.15;
+        }
+
+        .hero__stat .value small {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--mute);
+            margin-top: 6px;
+        }
+
+        /* ============================================================
+     SECTIONS — common
+     ============================================================ */
+        .section-tag {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mute);
+            margin-bottom: 60px;
+        }
+
+        .section-tag::before {
+            content: "";
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        /* ============================================================
+     SERVICES
+     ============================================================ */
+        .services {
+            padding: 160px 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        .services__head h2 {
+            font-size: clamp(48px, 8vw, 140px);
+            line-height: 0.88;
+            letter-spacing: -0.01em;
+            margin: 0 0 80px;
+        }
+
+        .services__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .service {
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 40px 36px 44px;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+            transition: background 0.5s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 0%, color-mix(in srgb, var(--accent) 16%, var(--solar) 10%), transparent 65%);
+            opacity: 0;
+            transition: opacity 0.6s var(--ease);
+            pointer-events: none;
+        }
+
+        .service:hover {
+            background: var(--bg-3);
+        }
+
+        :root[data-theme="light"] .service:hover,
+        :root[data-theme="light"] .athlete-card:hover {
+            background: #CCCBC2;
+        }
+
+        :root[data-theme="light"] .nav {
+            background: linear-gradient(180deg, rgba(231, 228, 220, 0.92) 0%, rgba(231, 228, 220, 0) 100%);
+        }
+
+        :root[data-theme="light"] .nav__cta:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        .service:hover::after {
+            opacity: 1;
+        }
+
+        .service__num {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            margin-bottom: auto;
+        }
+
+        .service__title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(40px, 4vw, 68px);
+            line-height: 0.92;
+            margin: 60px 0 18px;
+            letter-spacing: -0.005em;
+        }
+
+        .service__sub {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--mute);
+            margin-bottom: 22px;
+        }
+
+        .service__text {
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--fg-mute);
+            margin: 0;
+        }
+
+        /* ============================================================
+     CERTS / RECORD — shared row style
+     ============================================================ */
+        .certs,
+        .record {
+            padding: 160px 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        .certs__inner,
+        .record__inner {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 100px;
+        }
+
+        .certs__head h2,
+        .record__head h2 {
+            font-size: clamp(40px, 5vw, 80px);
+            line-height: 0.9;
+            margin: 0;
+            letter-spacing: -0.005em;
+        }
+
+        .certs__head p,
+        .record__head p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--fg-mute);
+            margin-top: 28px;
+            max-width: 320px;
+        }
+
+        .cert-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 110px;
+            gap: 32px;
+            padding: 26px 0;
+            border-bottom: 1px solid var(--line);
+            align-items: baseline;
+        }
+
+        .cert-row:first-child {
+            border-top: 1px solid var(--fg);
+        }
+
+        .cert-row__year {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.05em;
+            color: var(--fg);
+        }
+
+        .cert-row__title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            font-size: clamp(20px, 1.8vw, 26px);
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .cert-row__title small {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            text-transform: none;
+            letter-spacing: 0;
+            color: var(--mute);
+            margin-top: 6px;
+        }
+
+        .cert-row__tag {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: right;
+        }
+
+        /* ============================================================
+     ROSTER (HORIZONTAL) — seamless transition
+     ============================================================ */
+        .roster-section {
+            background: var(--bg-2);
+            border-top: 1px solid var(--line);
+            position: relative;
+        }
+
+        .roster-intro {
+            padding: 160px 40px 80px;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 80px;
+            align-items: end;
+        }
+
+        .roster-intro h2 {
+            font-size: clamp(56px, 10vw, 180px);
+            line-height: 0.86;
+            letter-spacing: -0.015em;
+            margin: 0;
+        }
+
+        .roster-intro__meta {
+            padding-bottom: 12px;
+        }
+
+        .roster-intro__meta p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--fg-mute);
+            max-width: 400px;
+            margin: 16px 0 0;
+        }
+
+        /* Wrapper holds both vertical runway + the pinned panel */
+        .horizontal-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .horizontal-pin {
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .horizontal-track {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 40px;
+            gap: 28px;
+            will-change: transform;
+        }
+
+        .athlete-card {
+            flex: 0 0 380px;
+            height: 540px;
+            border: 1px solid var(--line);
+            background: var(--bg-3);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.5s var(--ease), background 0.5s var(--ease);
+        }
+
+        .athlete-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--accent) 16%, var(--solar) 10%), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s var(--ease);
+            pointer-events: none;
+        }
+
+        .athlete-card:hover {
+            border-color: var(--fg);
+        }
+
+        .athlete-card:hover::before {
+            opacity: 1;
+        }
+
+        .athlete-card--gold {
+            border-color: var(--accent);
+            flex: 0 0 440px;
+        }
+
+        .athlete-card__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .athlete-card__num {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            color: var(--mute);
+        }
+
+        .athlete-card__badge {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 5px 11px;
+        }
+
+        .athlete-card__name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(36px, 2.8vw, 52px);
+            line-height: 1.04;
+            margin: 0;
+            padding-top: 0.08em;
+            will-change: transform;
+        }
+
+        .athlete-card__name span {
+            display: block;
+            padding-top: 0.02em;
+        }
+
+        .athlete-card__name span:last-child {
+            color: var(--accent);
+        }
+
+        .athlete-card--gold .athlete-card__name {
+            font-size: clamp(40px, 3.2vw, 60px);
+        }
+
+        .athlete-card__bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid var(--line);
+            padding-top: 18px;
+            gap: 16px;
+        }
+
+        .athlete-card__team {
+            font-size: 13px;
+            color: var(--fg-mute);
+            line-height: 1.4;
+        }
+
+        .athlete-card__team strong {
+            display: block;
+            color: var(--fg);
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .athlete-card__league {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            color: var(--mute);
+            white-space: nowrap;
+        }
+
+        .roster-divider {
+            flex: 0 0 320px;
+            height: 540px;
+            display: flex;
+            align-items: center;
+        }
+
+        .roster-divider__title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(44px, 4.5vw, 76px);
+            line-height: 0.92;
+            letter-spacing: -0.005em;
+        }
+
+        .roster-divider__title .label-line {
+            display: block;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            margin-bottom: 18px;
+            font-weight: 400;
+        }
+
+        .roster-divider__title .num {
+            color: var(--accent);
+            font-size: 0.55em;
+            display: block;
+            margin-top: 14px;
+            letter-spacing: 0.05em;
+        }
+
+        .roster-progress {
+            position: absolute;
+            bottom: 32px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            color: var(--mute);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .roster-progress__bar {
+            flex: 1;
+            height: 1px;
+            background: var(--line-strong);
+            position: relative;
+        }
+
+        .roster-progress__bar::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: var(--p, 0%);
+            background: var(--accent);
+        }
+
+        /* ============================================================
+     CONTACT — Train with intention + auto Ken Burns gallery
+     ============================================================ */
+        .contact {
+            padding: 200px 40px 60px;
+            border-top: 1px solid var(--line);
+            position: relative;
+        }
+
+        .contact__hero {
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .contact__lead {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: clamp(56px, 9vw, 160px);
+            line-height: 0.86;
+            letter-spacing: -0.015em;
+            margin: 0;
+        }
+
+        .gallery {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: var(--bg-3);
+            border: 1px solid var(--line);
+        }
+
+        .gallery__slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .gallery__slide.is-active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .gallery__img {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.0);
+            will-change: transform;
+        }
+
+        .gallery__slide.is-active .gallery__img {
+            animation: kenBurns 7.5s var(--ease) forwards;
+        }
+
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1.0) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.12) translate(-1.5%, -1.5%);
+            }
+        }
+
+        /* Skutečné fotky galerie */
+        .gallery__img--1 {
+            background-image: url('images/poli578_1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery__img--2 {
+            background-image: url('images/poli578_2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery__img--3 {
+            background-image: url('images/poli578_3.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery__caption {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            right: 18px;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(245, 245, 245, 0.7);
+            pointer-events: none;
+        }
+
+        :root[data-theme="light"] .gallery__caption {
+            color: rgba(245, 245, 245, 0.85);
+        }
+
+        .gallery__indicators {
+            display: flex;
+            gap: 6px;
+        }
+
+        .gallery__indicator {
+            width: 18px;
+            height: 1px;
+            background: rgba(245, 245, 245, 0.3);
+            transition: background 0.4s var(--ease);
+        }
+
+        .gallery__indicator.is-active {
+            background: #7A8C95;
+        }
+
+        /* Centered footer block */
+        .contact__footer {
+            text-align: center;
+            border-top: 1px solid var(--line);
+            padding-top: 60px;
+        }
+
+        .contact__footer-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 80px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .contact__col {
+            text-align: center;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact__col .label {
+            display: block;
+            margin: 0 0 14px;
+            height: 14px;
+            line-height: 14px;
+        }
+
+        .contact__col p,
+        .contact__col a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            color: var(--fg);
+            line-height: 1.4;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.005em;
+            display: inline-block;
+            will-change: transform;
+            transition: color 0.4s var(--ease);
+            margin: 0;
+            padding: 0;
+        }
+
+        .contact__col a:hover {
+            color: var(--accent);
+        }
+
+        .contact__base {
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mute);
+        }
+
+        /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+        @media (max-width: 1100px) {
+            .hero__main {
+                grid-template-columns: 1fr 300px;
+                gap: 40px;
+            }
+
+            .contact__hero {
+                grid-template-columns: 1fr 380px;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .nav {
+                padding: 18px 20px;
+            }
+
+            .nav__menu {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 50px;
+                gap: 24px;
+            }
+
+            .hero__top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                font-size: 10px;
+            }
+
+            .hero__main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero__portrait {
+                max-width: 320px;
+                margin: 0 auto;
+                min-height: 380px;
+            }
+
+            .hero__role {
+                margin-top: 20px;
+            }
+
+            .hero__band {
+                margin: 0 -20px;
+                padding: 24px 20px;
+                gap: 30px;
+            }
+
+            .services,
+            .certs,
+            .record,
+            .contact {
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 100px;
+                padding-bottom: 100px;
+            }
+
+            .services__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certs__inner,
+            .record__inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .roster-intro {
+                grid-template-columns: 1fr;
+                padding: 100px 20px 60px;
+                gap: 30px;
+            }
+
+            .athlete-card {
+                flex: 0 0 280px;
+                height: 460px;
+                padding: 24px;
+            }
+
+            .athlete-card--gold {
+                flex: 0 0 320px;
+            }
+
+            .roster-divider {
+                flex: 0 0 240px;
+                height: 460px;
+            }
+
+            .cert-row {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .cert-row__tag {
+                display: none;
+            }
+
+            .contact__hero {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                max-width: 380px;
+                margin: 0 auto;
+            }
+
+            .contact__footer-grid {
+                gap: 30px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact__base {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .preloader {
+                padding: 24px;
+            }
+
+            .preloader__progress {
+                left: 24px;
+                right: 24px;
+                bottom: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body class="is-loading">
+
+    <!-- ========== PRELOADER ========== -->
+    <div class="preloader" id="preloader">
+        <div class="preloader__top">
+            <span>PERFORMANCE // CALIBRATION</span>
+            <span>RP METHOD · 2026</span>
+        </div>
+
+        <div class="glitch-bars" id="glitchBars"></div>
+        <div class="glitch-scanlines"></div>
+
+        <div class="preloader__center">
+            <div class="preloader__title font-display" data-text="Polasek" id="preTitle">
+                <em>Radim</em> Polasek
+            </div>
+            <div class="preloader__counter" id="preCounter">000 %</div>
+        </div>
+
+        <div class="preloader__bottom">
+            <span>OSTRAVA · CZ</span>
+            <span>CONDITIONING · STRENGTH · SPEED</span>
+            <span id="preStatus">PRIMING SESSION…</span>
+        </div>
+
+        <div class="preloader__progress">
+            <div class="preloader__progress-fill" id="preFill"></div>
+        </div>
+
+        <!-- Reveal split panels -->
+        <div class="preloader__split-top" id="splitTop"></div>
+        <div class="preloader__split-bottom" id="splitBottom"></div>
+    </div>
+
+    <!-- ========== CURSOR ========== -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ========== NAV ========== -->
+    <nav class="nav">
+        <a href="#" class="nav__mark" data-magnetic>RP <span>/</span> COACHING</a>
+        <ul class="nav__menu">
+            <li><a href="#services" data-magnetic>Services</a></li>
+            <li><a href="#certs" data-magnetic>Certifications</a></li>
+            <li><a href="#roster" data-magnetic>Roster</a></li>
+            <li><a href="#record" data-magnetic>Record</a></li>
+        </ul>
+        <div class="nav__right">
+            <button class="theme-toggle" id="themeToggle" data-magnetic aria-label="Toggle theme">
+                <span class="theme-toggle__knob"></span>
+            </button>
+            <a href="#contact" class="nav__cta" data-magnetic>Contact</a>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+
+        <div class="hero__top">
+            <div><span class="accent-bar"></span>Performance System — 2026</div>
+            <div>Conditioning Coach · Elite Athletes</div>
+            <div>Ostrava, CZ · Hockey / Golf / Tennis</div>
+        </div>
+
+        <div class="hero__main">
+            <div class="hero__title-wrap">
+                <div class="hero__title">
+                    <h1>
+                        <span class="row hero-row"><span>Radim</span></span>
+                        <span class="row hero-row"><span>Polasek</span></span>
+                    </h1>
+                </div>
+
+                <div class="hero__role">
+                    <h2 class="hero__role-text">
+                        Conditioning Coach
+                        <small>— Strength · Speed · Resilience for elite sport</small>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Portrét s designovým aranžmá - menší, ale obklopený dekorativními prvky.
+         Vlož svoji fotku jako: <img src="radim.jpg" alt="Radim Polasek" />
+         Pokud chceš transparentní PNG: tmavé pozadí prosvítá. -->
+            <div class="hero__portrait-frame">
+                <span class="hero__portrait-num">N° 01</span>
+                <span class="hero__portrait-vertical">Performance — CZ / 2026</span>
+                <div class="hero__portrait" id="heroPortrait" data-magnetic>
+                     <img src="radim-portrait.jpg" alt="Radim Polasek" /> 
+                </div>
+                <span class="hero__portrait-meta">method</span>
+            </div>
+        </div>
+
+        <!-- Centered info band -->
+        <div class="hero__band">
+            <div class="hero__stat">
+                <span class="label">— Practice</span>
+                <div class="value">Conditioning &amp; Physical Preparation
+                    <small>Periodised, sport-specific, measurable.</small>
+                </div>
+            </div>
+            <div class="hero__stat">
+                <span class="label">— Specialty</span>
+                <div class="value">Hockey · Golf · Tennis
+                    <small>NHL, KHL, Czech Extraliga, ATP, PGA.</small>
+                </div>
+            </div>
+            <div class="hero__stat">
+                <span class="label">— Base</span>
+                <div class="value">Ostrava, Czech Republic
+                    <small>Beskydy Golf Club · Head Coach.</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES ========== -->
+    <section class="services" id="services">
+        <div class="services__head">
+            <div class="section-tag">— 01 / The Practice</div>
+            <h2 class="font-display">Three <span class="accent">disciplines.</span><br>One programme.</h2>
+        </div>
+
+        <div class="services__grid">
+            <article class="service" data-magnetic>
+                <span class="service__num">01 / Strength</span>
+                <h3 class="service__title">Power<br>&amp; Force</h3>
+                <span class="service__sub">— Foundational lifts</span>
+                <p class="service__text">Compound strength built on push, pull, squat and hinge. Programmed in cycles
+                    that respect the competitive calendar — heavy off-season, refined in-season — with functional
+                    patterns that transfer directly to ice, fairway and court.</p>
+            </article>
+
+            <article class="service" data-magnetic>
+                <span class="service__num">02 / Speed</span>
+                <h3 class="service__title">Acceleration<br>&amp; Agility</h3>
+                <span class="service__sub">— Velocity training</span>
+                <p class="service__text">First-step quickness, change-of-direction mechanics, plyometric power, reactive
+                    sprint work. The sport-specific velocity layer that turns prepared muscle into competitive
+                    separation when the puck drops or the ball lands.</p>
+            </article>
+
+            <article class="service" data-magnetic>
+                <span class="service__num">03 / Resilience</span>
+                <h3 class="service__title">Injury<br>Prevention</h3>
+                <span class="service__sub">— Longevity protocols</span>
+                <p class="service__text">Joint integrity, controlled mobility, tissue capacity, recovery architecture.
+                    The unglamorous work behind a long career — the discipline that lets a professional athlete still be
+                    performing in their thirties.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ========== CERTIFICATIONS ========== -->
+    <section class="certs" id="certs">
+        <div class="certs__inner">
+            <div class="certs__head">
+                <div class="section-tag">— 02 / Credentials</div>
+                <h2 class="font-display">Education<br>&amp; <span class="accent">certification.</span></h2>
+                <p>A formal foundation in physical education and movement science, layered with specialised coursework
+                    in strength, speed and on-field response.</p>
+            </div>
+
+            <div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2014</div>
+                    <div class="cert-row__title">University of Ostrava
+                        <small>Faculty of Education — Physical Education &amp; Sport</small>
+                    </div>
+                    <div class="cert-row__tag">Degree</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2016</div>
+                    <div class="cert-row__title">Strength &amp; Speed Specialist
+                        <small>Advanced certification — power and velocity development</small>
+                    </div>
+                    <div class="cert-row__tag">Cert</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2018</div>
+                    <div class="cert-row__title">Systematic Conditioning Planning
+                        <small>Periodisation, programming and load management</small>
+                    </div>
+                    <div class="cert-row__tag">Cert</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2020</div>
+                    <div class="cert-row__title">First Aid in Sports
+                        <small>On-field response, injury triage, return-to-play protocols</small>
+                    </div>
+                    <div class="cert-row__tag">Cert</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2022</div>
+                    <div class="cert-row__title">Beskydy Golf Club
+                        <small>Head Conditioning Coach — current appointment</small>
+                    </div>
+                    <div class="cert-row__tag">Active</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ELITE ROSTER ========== -->
+    <section class="roster-section" id="roster">
+        <div class="roster-intro">
+            <h2 class="font-display">Elite<br><span class="accent">roster.</span></h2>
+            <div class="roster-intro__meta">
+                <div class="section-tag" style="margin-bottom: 0;">— 03 / Active &amp; alumni</div>
+                <p>A selection of professionals trained for league competition, international duty, and tour seasons.
+                    Hockey, golf, tennis — from junior development to the NHL.</p>
+            </div>
+        </div>
+
+        <div class="horizontal-wrap" id="horizontalWrap">
+            <div class="horizontal-pin" id="horizontalPin">
+                <div class="horizontal-track" id="horizontalTrack">
+
+                    <div class="roster-divider">
+                        <div class="roster-divider__title">
+                            <span class="label-line">— Section A</span>
+                            World<br>Champions
+                            <span class="num">04 athletes</span>
+                        </div>
+                    </div>
+
+                    <article class="athlete-card athlete-card--gold" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">001</span><span
+                                class="athlete-card__badge">Gold ’24</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Matěj</span><span>Stránský</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech National Team</strong>World Champion 2024
+                            </div>
+                            <span class="athlete-card__league">IIHF</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card athlete-card--gold" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">002</span><span
+                                class="athlete-card__badge">Gold ’24</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Ondřej</span><span>Palát</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech National Team</strong>World Champion 2024
+                            </div>
+                            <span class="athlete-card__league">IIHF</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card athlete-card--gold" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">003</span><span
+                                class="athlete-card__badge">Gold ’24</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Libor</span><span>Hájek</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech National Team</strong>World Champion 2024
+                            </div>
+                            <span class="athlete-card__league">IIHF</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card athlete-card--gold" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">004</span><span
+                                class="athlete-card__badge">Gold ’24</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Jan</span><span>Ščotka</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech National Team</strong>World Champion 2024
+                            </div>
+                            <span class="athlete-card__league">IIHF</span>
+                        </div>
+                    </article>
+
+                    <div class="roster-divider">
+                        <div class="roster-divider__title">
+                            <span class="label-line">— Section B</span>
+                            Pro<br>Hockey
+                            <span class="num">12 athletes</span>
+                        </div>
+                    </div>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">005</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Radek</span><span>Faksa</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Dallas Stars</strong>Forward</div>
+                            <span class="athlete-card__league">NHL</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">006</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Roman</span><span>Polák</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Toronto</strong>Defender</div>
+                            <span class="athlete-card__league">NHL</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">007</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Ondřej</span><span>Šedivý</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>HC Innsbruck</strong>Forward</div>
+                            <span class="athlete-card__league">ICEHL</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">008</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Tomáš</span><span>Kudělka</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Medvescak Zagreb</strong>Defender</div>
+                            <span class="athlete-card__league">CRO</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">009</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Adam</span><span>Polášek</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>HC Novosibirsk</strong>Defender</div>
+                            <span class="athlete-card__league">KHL</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">010</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Josef</span><span>Hrabal</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>HC Třinec</strong>Defender</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">011</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Rostislav</span><span>Olesz</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>NHL veteran</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">012</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Roman</span><span>Szturc</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech Extraliga</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">013</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Šimon</span><span>Stránský</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech Extraliga</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">014</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Vojtěch</span><span>Tomi</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech Extraliga</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">015</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Tomáš</span><span>Pastor</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech Extraliga</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">016</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Petr</span><span>Strapáč</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Czech Extraliga</strong>Forward</div>
+                            <span class="athlete-card__league">CZE</span>
+                        </div>
+                    </article>
+
+                    <div class="roster-divider">
+                        <div class="roster-divider__title">
+                            <span class="label-line">— Section C</span>
+                            Golf<br>&amp; Tennis
+                            <span class="num">03 athletes</span>
+                        </div>
+                    </div>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">017</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Stanislav</span><span>Matuš</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Prague Golf Team</strong>Professional</div>
+                            <span class="athlete-card__league">PGA</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">018</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>Jan</span><span>Hájek</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Davis Cup (former)</strong>Tennis</div>
+                            <span class="athlete-card__league">ATP</span>
+                        </div>
+                    </article>
+
+                    <article class="athlete-card" data-magnetic>
+                        <div class="athlete-card__top"><span class="athlete-card__num">019</span></div>
+                        <h3 class="athlete-card__name" data-parallax><span>David</span><span>Cyprian</span></h3>
+                        <div class="athlete-card__bottom">
+                            <div class="athlete-card__team"><strong>Professional</strong>Tennis</div>
+                            <span class="athlete-card__league">ATP</span>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div class="roster-progress">
+                    <span>Roster</span>
+                    <div class="roster-progress__bar" id="rosterBar"></div>
+                    <span>01 — 19</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PERSONAL RECORD ========== -->
+    <section class="record" id="record">
+        <div class="record__inner">
+            <div class="record__head">
+                <div class="section-tag">— 04 / Personal Record</div>
+                <h2 class="font-display">Played the<br>game <span class="accent">first.</span></h2>
+                <p>Before coaching, a competitive career in floorball at the highest national and international level.
+                    Understanding performance from the inside.</p>
+            </div>
+
+            <div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2013</div>
+                    <div class="cert-row__title">U21 Floorball World Championship
+                        <small>Vice-champion · Czech Republic national squad</small>
+                    </div>
+                    <div class="cert-row__tag">Silver</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2013–15</div>
+                    <div class="cert-row__title">Czech National Team
+                        <small>Senior squad — 2013 to 2015 caps</small>
+                    </div>
+                    <div class="cert-row__tag">National</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2014</div>
+                    <div class="cert-row__title">Czech Extraliga — Floorball
+                        <small>Champion · top domestic title</small>
+                    </div>
+                    <div class="cert-row__tag">Gold</div>
+                </div>
+                <div class="cert-row" data-cert>
+                    <div class="cert-row__year">2015–17</div>
+                    <div class="cert-row__title">Czech Extraliga — Floorball
+                        <small>Three consecutive runner-up finishes</small>
+                    </div>
+                    <div class="cert-row__tag">3× Silver</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="contact" id="contact">
+        <div class="contact__hero">
+            <h2 class="contact__lead">
+                Train with<br><span class="accent">intention.</span>
+            </h2>
+
+            <!-- Auto Ken Burns galerie - 3 fotky z images/ složky -->
+            <div class="gallery" id="gallery" data-magnetic>
+                <div class="gallery__slide is-active" data-slide="0">
+                    <div class="gallery__img gallery__img--1"></div>
+                </div>
+                <div class="gallery__slide" data-slide="1">
+                    <div class="gallery__img gallery__img--2"></div>
+                </div>
+                <div class="gallery__slide" data-slide="2">
+                    <div class="gallery__img gallery__img--3"></div>
+                </div>
+
+                <div class="gallery__caption">
+                    <span id="galleryLabel">poli578_1.jpg</span>
+                    <div class="gallery__indicators" id="galleryIndicators">
+                        <span class="gallery__indicator is-active"></span>
+                        <span class="gallery__indicator"></span>
+                        <span class="gallery__indicator"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact__footer">
+            <div class="contact__footer-grid">
+                <div class="contact__col">
+                    <span class="label">— Instagram</span>
+                    <a href="https://instagram.com/coach_polasek" target="_blank" rel="noopener"
+                        data-magnetic>@coach_polasek</a>
+                </div>
+                <div class="contact__col">
+                    <span class="label">— Facebook</span>
+                    <a href="#" data-magnetic>Radim Polasek</a>
+                </div>
+                <div class="contact__col">
+                    <span class="label">— Practice</span>
+                    <p>Beskydy Golf Club</p>
+                </div>
+            </div>
+
+            <div class="contact__base">
+                <span>© Radim Polasek · 2026</span>
+                <span>Strength · Speed · Resilience</span>
+                <span>Edition 02 — Ostrava, CZ</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* ============================================================
+           1. PRELOADER — Glitch Storm + split reveal
+           ============================================================ */
+        (function preloader() {
+            const bars = document.getElementById('glitchBars');
+            const fill = document.getElementById('preFill');
+            const counter = document.getElementById('preCounter');
+            const status = document.getElementById('preStatus');
+            const title = document.getElementById('preTitle');
+            const splitTop = document.getElementById('splitTop');
+            const splitBottom = document.getElementById('splitBottom');
+            const preloader = document.getElementById('preloader');
+
+            // Build randomized horizontal bars
+            const barCount = 28;
+            for (let i = 0; i < barCount; i++) {
+                const b = document.createElement('div');
+                b.className = 'glitch-bar';
+                if (Math.random() > 0.75) b.classList.add('is-thick');
+                if (Math.random() > 0.85) b.classList.add('is-accent');
+                b.style.top = (Math.random() * 100) + '%';
+                b.style.opacity = (0.2 + Math.random() * 0.7);
+                b.style.transform = `scaleX(${0.2 + Math.random() * 0.8})`;
+                bars.appendChild(b);
+            }
+
+            const barEls = bars.querySelectorAll('.glitch-bar');
+
+            // Continuous glitch flicker on the bars
+            const glitchTL = gsap.timeline({ repeat: -1 });
+            barEls.forEach((bar) => {
+                glitchTL.to(bar, {
+                    duration: 0.06 + Math.random() * 0.18,
+                    x: () => (Math.random() - 0.5) * 100,
+                    scaleX: () => 0.2 + Math.random() * 0.9,
+                    opacity: () => 0.2 + Math.random() * 0.8,
+                    top: () => (Math.random() * 100) + '%',
+                    ease: 'steps(1)',
+                }, Math.random() * 2.2);
+            });
+
+            // Title glitch flashes
+            const titleGlitch = setInterval(() => {
+                if (Math.random() > 0.55) {
+                    title.classList.add('is-glitching');
+                    setTimeout(() => title.classList.remove('is-glitching'), 80 + Math.random() * 140);
+                }
+            }, 280);
+
+            // Counter + progress fill. Short enough to feel premium, long enough to keep the reveal impact.
+            const TOTAL_MS = 1900;
+            const start = performance.now();
+            const statusMessages = ['PRIMING SESSION…', 'CALIBRATING LOAD…', 'MAPPING ATHLETES…', 'SYNC OK', 'READY'];
+
+            function tick(now) {
+                const elapsed = now - start;
+                const p = Math.min(1, elapsed / TOTAL_MS);
+                const pct = Math.floor(p * 100);
+                counter.textContent = String(pct).padStart(3, '0') + ' %';
+                fill.style.width = (p * 100) + '%';
+                const idx = Math.min(statusMessages.length - 1, Math.floor(p * statusMessages.length));
+                status.textContent = statusMessages[idx];
+                if (p < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    finish();
+                }
+            }
+            requestAnimationFrame(tick);
+
+            function finish() {
+                clearInterval(titleGlitch);
+                glitchTL.kill();
+
+                // One last hard glitch
+                title.classList.add('is-glitching');
+
+                // Připravit hero v animovaném stavu PŘEDEM, aby nebyl flash
+                gsap.set('.hero-row > span', { yPercent: 110 });
+                gsap.set(['.hero__top > div', '.hero__band', '.hero__portrait-frame', '.hero__role'], { opacity: 0, y: 20 });
+
+                // Odemknout body scroll až po přípravě hero stavu.
+                document.body.classList.remove('is-loading');
+
+                // Zobrazit split panely (z opacity 0 → 1)
+                gsap.set([splitTop, splitBottom], { opacity: 1 });
+                gsap.set(preloader, { backgroundColor: 'transparent' });
+
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        preloader.style.display = 'none';
+                        ScrollTrigger.refresh();
+                    }
+                });
+
+                // Fade glitch obsahu, ale bez dlouhé černé pauzy před revelem.
+                tl.to(barEls, {
+                    opacity: 0,
+                    duration: 0.22,
+                    ease: 'power2.out',
+                }, 0)
+                    .to('.glitch-scanlines', {
+                        opacity: 0,
+                        duration: 0.22,
+                        ease: 'power2.out',
+                    }, 0)
+                    .to(['.preloader__title', '.preloader__counter', '.preloader__top', '.preloader__bottom', '.preloader__progress'], {
+                        opacity: 0,
+                        duration: 0.24,
+                        ease: 'power2.out',
+                    }, 0.04)
+                    // Hero začne nabíhat ještě pod zavřenými panely.
+                    // Když se split otevře, už není pod ním prázdné černé plátno.
+                    .to('.hero-row > span', {
+                        yPercent: 0,
+                        duration: 1.1,
+                        ease: 'power3.out',
+                        stagger: 0.1,
+                    }, 0.08)
+                    .to(['.hero__top > div', '.hero__band', '.hero__portrait-frame', '.hero__role'], {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.9,
+                        ease: 'power2.out',
+                        stagger: 0.06,
+                    }, 0.14)
+                    // Split rozdělení - dvě poloviny se rozjedou
+                    .to(splitTop, {
+                        yPercent: -100,
+                        duration: 0.72,
+                        ease: 'power4.inOut',
+                    }, 0.18)
+                    .to(splitBottom, {
+                        yPercent: 100,
+                        duration: 0.72,
+                        ease: 'power4.inOut',
+                    }, 0.18);
+            }
+        })();
+
+        /* ============================================================
+           2. HERO LOAD ANIMATION - integrované přímo do preloader finish
+           ============================================================ */
+
+        /* ============================================================
+           3. CUSTOM CURSOR
+           ============================================================ */
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorRing = document.getElementById('cursorRing');
+        const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        const ringPos = { x: mouse.x, y: mouse.y };
+        const dotPos = { x: mouse.x, y: mouse.y };
+        const lerpRing = 0.18;
+        const lerpDot = 0.45;
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+        function tickCursor() {
+            ringPos.x += (mouse.x - ringPos.x) * lerpRing;
+            ringPos.y += (mouse.y - ringPos.y) * lerpRing;
+            dotPos.x += (mouse.x - dotPos.x) * lerpDot;
+            dotPos.y += (mouse.y - dotPos.y) * lerpDot;
+            cursorRing.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0)`;
+            cursorDot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0)`;
+            requestAnimationFrame(tickCursor);
+        }
+        tickCursor();
+
+        document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hover'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hover'));
+        });
+
+        /* ============================================================
+           4. MAGNETIC EFFECT
+           ============================================================ */
+        document.querySelectorAll('[data-magnetic]').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const dx = e.clientX - (rect.left + rect.width / 2);
+                const dy = e.clientY - (rect.top + rect.height / 2);
+                gsap.to(el, { x: dx * 0.25, y: dy * 0.35, duration: 0.6, ease: 'power3.out' });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, y: 0, duration: 1.2, ease: 'elastic.out(1, 0.4)' });
+            });
+        });
+
+        /* ============================================================
+           5. THEME TOGGLE
+           ============================================================ */
+        const themeToggle = document.getElementById('themeToggle');
+        const root = document.documentElement;
+        themeToggle.addEventListener('click', () => {
+            const current = root.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+        });
+
+        /* ============================================================
+           6. SCROLL REVEALS
+           ============================================================ */
+        gsap.from('.services__head h2', {
+            scrollTrigger: { trigger: '.services', start: 'top 75%' },
+            y: 60, opacity: 0, duration: 1.1, ease: 'power3.out',
+        });
+
+        gsap.from('.service', {
+            scrollTrigger: { trigger: '.services__grid', start: 'top 80%' },
+            y: 80, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.12,
+        });
+
+        gsap.utils.toArray('[data-cert]').forEach(row => {
+            gsap.from(row, {
+                scrollTrigger: { trigger: row, start: 'top 88%' },
+                y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
+            });
+        });
+
+        gsap.from('.certs__head, .record__head', {
+            scrollTrigger: { trigger: '.certs', start: 'top 75%' },
+            y: 50, opacity: 0, duration: 1, ease: 'power3.out',
+        });
+
+        gsap.from('.roster-intro h2, .roster-intro__meta', {
+            scrollTrigger: { trigger: '.roster-intro', start: 'top 75%' },
+            y: 60, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.1,
+        });
+
+        gsap.from('.contact__lead', {
+            scrollTrigger: { trigger: '.contact', start: 'top 75%' },
+            y: 80, opacity: 0, duration: 1.2, ease: 'power3.out',
+        });
+
+        /* ============================================================
+           7. HORIZONTAL SCROLL — seamless transition
+           The wrap height = viewport + scrollDistance, so the pin starts
+           exactly when the section reaches the top, with no gap.
+           ============================================================ */
+        const track = document.getElementById('horizontalTrack');
+        const pin = document.getElementById('horizontalPin');
+        const wrap = document.getElementById('horizontalWrap');
+        const bar = document.getElementById('rosterBar');
+
+        function getScrollDistance() {
+            return Math.max(0, track.scrollWidth - window.innerWidth);
+        }
+        function setWrapHeight() {
+            wrap.style.height = (window.innerHeight + getScrollDistance()) + 'px';
+        }
+        setWrapHeight();
+
+        const horizontalTween = gsap.to(track, {
+            x: () => -getScrollDistance(),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: pin,
+                start: 'top top',
+                end: () => '+=' + getScrollDistance(),
+                scrub: 0.8,
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    if (bar) bar.style.setProperty('--p', (self.progress * 100) + '%');
+                },
+            }
+        });
+
+        // Parallax inside cards (containerAnimation)
+        gsap.utils.toArray('[data-parallax]').forEach(el => {
+            gsap.fromTo(el, { y: 30 }, {
+                y: -30,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: el.closest('.athlete-card'),
+                    containerAnimation: horizontalTween,
+                    start: 'left right',
+                    end: 'right left',
+                    scrub: true,
+                }
+            });
+        });
+
+        // Card entrance reveals
+        gsap.utils.toArray('.athlete-card, .roster-divider').forEach(card => {
+            gsap.from(card, {
+                opacity: 0, y: 40,
+                duration: 0.8, ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: horizontalTween,
+                    start: 'left 95%',
+                    toggleActions: 'play none none reverse',
+                }
+            });
+        });
+
+        /* ============================================================
+           8. KEN BURNS GALLERY (auto)
+           ============================================================ */
+        (function gallery() {
+            const slides = document.querySelectorAll('.gallery__slide');
+            const indicators = document.querySelectorAll('.gallery__indicator');
+            const label = document.getElementById('galleryLabel');
+            const labels = ['poli578_1.jpg', 'poli578_2.jpg', 'poli578_3.jpg'];
+            let current = 0;
+            const INTERVAL = 5500;
+
+            function next() {
+                const prev = current;
+                current = (current + 1) % slides.length;
+
+                // Crossfade
+                gsap.to(slides[current], { opacity: 1, duration: 1.4, ease: 'power2.inOut' });
+                gsap.to(slides[prev], { opacity: 0, duration: 1.4, ease: 'power2.inOut' });
+
+                // Restart Ken Burns animation by re-triggering active class
+                slides[current].classList.add('is-active');
+                setTimeout(() => slides[prev].classList.remove('is-active'), 1400);
+
+                indicators.forEach((ind, i) => ind.classList.toggle('is-active', i === current));
+                if (label) label.textContent = labels[current];
+            }
+
+            setInterval(next, INTERVAL);
+        })();
+
+        /* ============================================================
+           9. RESIZE
+           ============================================================ */
+        let resizeT;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeT);
+            resizeT = setTimeout(() => {
+                setWrapHeight();
+                ScrollTrigger.refresh();
+            }, 150);
+        });
+
+        /* ============================================================
+           10. SMOOTH ANCHOR
+           ============================================================ */
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#' || href.length < 2) return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.scrollY,
+                        behavior: 'smooth',
+                    });
+                }
+            });
+        });
+
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                setWrapHeight();
+                ScrollTrigger.refresh();
+            });
+        }
+
+        /* ============================================================
+           11. PORTRAIT IMAGE DETECTION
+           If you add an <img> inside #heroPortrait, the placeholder UI
+           automatically hides.
+           ============================================================ */
+        (function portraitWatcher() {
+            const portrait = document.getElementById('heroPortrait');
+            if (portrait && portrait.querySelector('img')) {
+                portrait.classList.add('has-image');
+            }
+        })();
+    </script>
+
+</body>
+
+</html>
