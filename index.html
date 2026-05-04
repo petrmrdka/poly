@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="cs" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
@@ -137,6 +137,7 @@
             align-items: center;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
+            line-height: 1.45;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: color-mix(in srgb, var(--fg) 58%, transparent);
@@ -158,10 +159,11 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(36px, 6vw, 88px);
-            line-height: 0.92;
+            line-height: 1.02;
             letter-spacing: -0.005em;
             text-align: center;
             position: relative;
+            padding: 0.08em 0;
         }
 
         .preloader__title em {
@@ -172,6 +174,7 @@
         .preloader__counter {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
+            line-height: 1.35;
             letter-spacing: 0.22em;
             color: color-mix(in srgb, var(--fg) 72%, transparent);
         }
@@ -346,19 +349,21 @@
             font-family: 'Oswald', sans-serif;
             font-weight: 500;
             letter-spacing: -0.005em;
-            line-height: 0.88;
+            line-height: 1.02;
             text-transform: uppercase;
         }
 
         .font-syn {
             font-family: 'Syncopate', sans-serif;
             letter-spacing: 0.18em;
+            line-height: 1.45;
             text-transform: uppercase;
         }
 
         .label {
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--mute);
@@ -367,6 +372,24 @@
 
         .accent {
             color: var(--accent);
+        }
+
+        :root[lang="cs"] .font-display,
+        :root[lang="cs"] .hero__title h1,
+        :root[lang="cs"] .services__head h2,
+        :root[lang="cs"] .service__title,
+        :root[lang="cs"] .certs__head h2,
+        :root[lang="cs"] .record__head h2,
+        :root[lang="cs"] .roster-intro h2,
+        :root[lang="cs"] .roster-divider__title,
+        :root[lang="cs"] .contact__lead {
+            line-height: 1.18;
+        }
+
+        :root[lang="cs"] .athlete-card__name,
+        :root[lang="cs"] .cert-row__title,
+        :root[lang="cs"] .hero__role-text {
+            line-height: 1.26;
         }
 
         /* ============================================================
@@ -413,6 +436,7 @@
         .nav__menu a {
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--fg);
@@ -460,9 +484,29 @@
             background: var(--accent);
         }
 
+        .language-toggle {
+            border: 1px solid var(--line-strong);
+            background: color-mix(in srgb, var(--bg) 78%, transparent);
+            color: var(--fg);
+            cursor: none;
+            padding: 8px 10px;
+            min-width: 54px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: border-color 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+        }
+
+        .language-toggle:hover {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+        }
+
         .nav__cta {
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             border: 1px solid var(--fg);
@@ -499,6 +543,7 @@
             gap: 40px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
+            line-height: 1.45;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--mute);
@@ -535,7 +580,7 @@
             text-transform: uppercase;
             /* MENŠÍ jméno aby se dalo přečíst i s rolí */
             font-size: clamp(56px, 9.5vw, 160px);
-            line-height: 0.86;
+            line-height: 1.05;
             letter-spacing: -0.015em;
             margin: 0;
         }
@@ -543,11 +588,16 @@
         .hero__title h1 .row {
             display: block;
             overflow: hidden;
-            padding: 0.04em 0;
+            padding: 0.09em 0 0.05em;
+        }
+
+        :root[lang="cs"] .hero__title h1 .row {
+            padding: 0.14em 0 0.08em;
         }
 
         .hero__title h1 .row>span {
             display: block;
+            padding-top: 0.02em;
             will-change: transform;
         }
 
@@ -625,6 +675,7 @@
             transform-origin: left center;
             font-family: 'Syncopate', sans-serif;
             font-size: 8px;
+            line-height: 1.5;
             letter-spacing: 0.3em;
             color: var(--mute);
             text-transform: uppercase;
@@ -690,7 +741,7 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(24px, 3.2vw, 44px);
-            line-height: 1;
+            line-height: 1.12;
             letter-spacing: -0.005em;
             color: var(--accent);
             margin: 0;
@@ -701,6 +752,7 @@
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
             font-weight: 400;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             color: var(--mute);
             margin-top: 14px;
@@ -758,6 +810,7 @@
             gap: 14px;
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--mute);
@@ -781,7 +834,7 @@
 
         .services__head h2 {
             font-size: clamp(48px, 8vw, 140px);
-            line-height: 0.88;
+            line-height: 1.02;
             letter-spacing: -0.01em;
             margin: 0 0 80px;
         }
@@ -841,6 +894,7 @@
         .service__num {
             font-family: 'Syncopate', sans-serif;
             font-size: 11px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             color: var(--accent);
             margin-bottom: auto;
@@ -851,7 +905,7 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(40px, 4vw, 68px);
-            line-height: 0.92;
+            line-height: 1.04;
             margin: 60px 0 18px;
             letter-spacing: -0.005em;
         }
@@ -859,6 +913,7 @@
         .service__sub {
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--mute);
@@ -891,7 +946,7 @@
         .certs__head h2,
         .record__head h2 {
             font-size: clamp(40px, 5vw, 80px);
-            line-height: 0.9;
+            line-height: 1.04;
             margin: 0;
             letter-spacing: -0.005em;
         }
@@ -922,6 +977,7 @@
             font-family: 'Oswald', sans-serif;
             font-weight: 500;
             font-size: 16px;
+            line-height: 1.35;
             letter-spacing: 0.05em;
             color: var(--fg);
         }
@@ -931,7 +987,7 @@
             font-weight: 400;
             font-size: clamp(20px, 1.8vw, 26px);
             text-transform: uppercase;
-            line-height: 1.1;
+            line-height: 1.24;
         }
 
         .cert-row__title small {
@@ -939,6 +995,7 @@
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             font-size: 13px;
+            line-height: 1.45;
             text-transform: none;
             letter-spacing: 0;
             color: var(--mute);
@@ -948,6 +1005,7 @@
         .cert-row__tag {
             font-family: 'Syncopate', sans-serif;
             font-size: 9px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--accent);
@@ -973,7 +1031,7 @@
 
         .roster-intro h2 {
             font-size: clamp(56px, 10vw, 180px);
-            line-height: 0.86;
+            line-height: 1.05;
             letter-spacing: -0.015em;
             margin: 0;
         }
@@ -1079,15 +1137,19 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(36px, 2.8vw, 52px);
-            line-height: 1.04;
+            line-height: 1.12;
             margin: 0;
-            padding-top: 0.08em;
+            padding-top: 0.12em;
             will-change: transform;
         }
 
         .athlete-card__name span {
             display: block;
-            padding-top: 0.02em;
+            padding-top: 0.04em;
+        }
+
+        :root[lang="cs"] .athlete-card__name span {
+            padding-top: 0.08em;
         }
 
         .athlete-card__name span:last-child {
@@ -1140,7 +1202,7 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(44px, 4.5vw, 76px);
-            line-height: 0.92;
+            line-height: 1.05;
             letter-spacing: -0.005em;
         }
 
@@ -1148,6 +1210,7 @@
             display: block;
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             color: var(--accent);
             margin-bottom: 18px;
@@ -1159,6 +1222,7 @@
             font-size: 0.55em;
             display: block;
             margin-top: 14px;
+            line-height: 1.35;
             letter-spacing: 0.05em;
         }
 
@@ -1172,6 +1236,7 @@
             gap: 16px;
             font-family: 'Syncopate', sans-serif;
             font-size: 10px;
+            line-height: 1.45;
             letter-spacing: 0.22em;
             color: var(--mute);
             pointer-events: none;
@@ -1217,7 +1282,7 @@
             font-weight: 500;
             text-transform: uppercase;
             font-size: clamp(56px, 9vw, 160px);
-            line-height: 0.86;
+            line-height: 1.05;
             letter-spacing: -0.015em;
             margin: 0;
         }
@@ -1349,8 +1414,8 @@
         .contact__col .label {
             display: block;
             margin: 0 0 14px;
-            height: 14px;
-            line-height: 14px;
+            min-height: 14px;
+            line-height: 1.45;
         }
 
         .contact__col p,
@@ -1531,24 +1596,24 @@
     <!-- ========== PRELOADER ========== -->
     <div class="preloader" id="preloader">
         <div class="preloader__top">
-            <span>PERFORMANCE // CALIBRATION</span>
-            <span>RP METHOD · 2026</span>
+            <span>VÝKON // KALIBRACE</span>
+            <span>RP METODA · 2026</span>
         </div>
 
         <div class="glitch-bars" id="glitchBars"></div>
         <div class="glitch-scanlines"></div>
 
         <div class="preloader__center">
-            <div class="preloader__title font-display" data-text="Polasek" id="preTitle">
-                <em>Radim</em> Polasek
+            <div class="preloader__title font-display" data-text="Radim Polášek" id="preTitle">
+                <em>Radim</em> Polášek
             </div>
             <div class="preloader__counter" id="preCounter">000 %</div>
         </div>
 
         <div class="preloader__bottom">
             <span>OSTRAVA · CZ</span>
-            <span>CONDITIONING · STRENGTH · SPEED</span>
-            <span id="preStatus">PRIMING SESSION…</span>
+            <span>KONDICE · SÍLA · RYCHLOST</span>
+            <span id="preStatus">PŘÍPRAVA SYSTÉMU…</span>
         </div>
 
         <div class="preloader__progress">
@@ -1568,16 +1633,17 @@
     <nav class="nav">
         <a href="#" class="nav__mark" data-magnetic>RP <span>/</span> COACHING</a>
         <ul class="nav__menu">
-            <li><a href="#services" data-magnetic>Services</a></li>
-            <li><a href="#certs" data-magnetic>Certifications</a></li>
-            <li><a href="#roster" data-magnetic>Roster</a></li>
-            <li><a href="#record" data-magnetic>Record</a></li>
+            <li><a href="#services" data-magnetic>Služby</a></li>
+            <li><a href="#certs" data-magnetic>Vzdělání</a></li>
+            <li><a href="#roster" data-magnetic>Sportovci</a></li>
+            <li><a href="#record" data-magnetic>Kariéra</a></li>
         </ul>
         <div class="nav__right">
+            <button class="language-toggle" id="languageToggle" data-magnetic aria-label="Přepnout jazyk">EN</button>
             <button class="theme-toggle" id="themeToggle" data-magnetic aria-label="Toggle theme">
                 <span class="theme-toggle__knob"></span>
             </button>
-            <a href="#contact" class="nav__cta" data-magnetic>Contact</a>
+            <a href="#contact" class="nav__cta" data-magnetic>Kontakt</a>
         </div>
     </nav>
 
@@ -1585,9 +1651,9 @@
     <section class="hero">
 
         <div class="hero__top">
-            <div><span class="accent-bar"></span>Performance System — 2026</div>
-            <div>Conditioning Coach · Elite Athletes</div>
-            <div>Ostrava, CZ · Hockey / Golf / Tennis</div>
+            <div><span class="accent-bar"></span>Výkonnostní systém — 2026</div>
+            <div>Kondiční trenér · špičkoví sportovci</div>
+            <div>Ostrava, CZ · hokej / golf / tenis</div>
         </div>
 
         <div class="hero__main">
@@ -1595,14 +1661,14 @@
                 <div class="hero__title">
                     <h1>
                         <span class="row hero-row"><span>Radim</span></span>
-                        <span class="row hero-row"><span>Polasek</span></span>
+                        <span class="row hero-row"><span>Polášek</span></span>
                     </h1>
                 </div>
 
                 <div class="hero__role">
                     <h2 class="hero__role-text">
-                        Conditioning Coach
-                        <small>— Strength · Speed · Resilience for elite sport</small>
+                        Kondiční trenér
+                        <small>— Síla · rychlost · odolnost pro elitní sport</small>
                     </h2>
                 </div>
             </div>
@@ -1612,32 +1678,32 @@
          Pokud chceš transparentní PNG: tmavé pozadí prosvítá. -->
             <div class="hero__portrait-frame">
                 <span class="hero__portrait-num">N° 01</span>
-                <span class="hero__portrait-vertical">Performance — CZ / 2026</span>
+                <span class="hero__portrait-vertical">Výkon — CZ / 2026</span>
                 <div class="hero__portrait" id="heroPortrait" data-magnetic>
                      <img src="radim-portrait.jpg" alt="Radim Polasek" /> 
                 </div>
-                <span class="hero__portrait-meta">method</span>
+                <span class="hero__portrait-meta">metoda</span>
             </div>
         </div>
 
         <!-- Centered info band -->
         <div class="hero__band">
             <div class="hero__stat">
-                <span class="label">— Practice</span>
-                <div class="value">Conditioning &amp; Physical Preparation
-                    <small>Periodised, sport-specific, measurable.</small>
+                <span class="label">— Praxe</span>
+                <div class="value">Kondiční &amp; fyzická příprava
+                    <small>Navázaná na sezonu, konkrétní sport a měřitelné cíle.</small>
                 </div>
             </div>
             <div class="hero__stat">
-                <span class="label">— Specialty</span>
-                <div class="value">Hockey · Golf · Tennis
-                    <small>NHL, KHL, Czech Extraliga, ATP, PGA.</small>
+                <span class="label">— Specializace</span>
+                <div class="value">Hokej · golf · tenis
+                    <small>NHL, KHL, česká extraliga, ATP, PGA.</small>
                 </div>
             </div>
             <div class="hero__stat">
-                <span class="label">— Base</span>
-                <div class="value">Ostrava, Czech Republic
-                    <small>Beskydy Golf Club · Head Coach.</small>
+                <span class="label">— Zázemí</span>
+                <div class="value">Ostrava, Česká republika
+                    <small>Beskydy Golf Club · hlavní trenér.</small>
                 </div>
             </div>
         </div>
@@ -2059,6 +2125,229 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        const root = document.documentElement;
+
+        /* ============================================================
+           0. LANGUAGE TOGGLE — Czech default / English optional
+           ============================================================ */
+        const i18n = {
+            cs: {
+                toggle: 'EN',
+                statusMessages: ['PŘÍPRAVA SYSTÉMU…', 'KALIBRACE ZÁTĚŽE…', 'MAPOVÁNÍ SPORTOVCŮ…', 'SYNCHRONIZACE OK', 'PŘIPRAVENO'],
+                html: {
+                    '.preloader__top span:first-child': 'VÝKON // KALIBRACE',
+                    '.preloader__top span:last-child': 'RP METODA · 2026',
+                    '.preloader__title': '<em>Radim</em> Polášek',
+                    '.preloader__bottom span:nth-child(2)': 'KONDICE · SÍLA · RYCHLOST',
+                    '.nav__menu a[href="#services"]': 'Služby',
+                    '.nav__menu a[href="#certs"]': 'Vzdělání',
+                    '.nav__menu a[href="#roster"]': 'Sportovci',
+                    '.nav__menu a[href="#record"]': 'Kariéra',
+                    '.nav__cta': 'Kontakt',
+                    '.hero__top div:nth-child(1)': '<span class="accent-bar"></span>Příprava pro výkon — 2026',
+                    '.hero__top div:nth-child(2)': 'Kondiční trenér · špičkoví sportovci',
+                    '.hero__top div:nth-child(3)': 'Ostrava, CZ · hokej / golf / tenis',
+                    '.hero-row:nth-child(2) > span': 'Polášek',
+                    '.hero__role-text': 'Kondiční trenér<small>— Síla · rychlost · odolnost pro vrcholový sport</small>',
+                    '.hero__portrait-vertical': 'Výkon — CZ / 2026',
+                    '.hero__portrait-meta': 'metoda',
+                    '.hero__stat:nth-child(1) .label': '— Příprava',
+                    '.hero__stat:nth-child(1) .value': 'Kondiční příprava<small>Navázaná na sezonu, konkrétní sport a měřitelné cíle.</small>',
+                    '.hero__stat:nth-child(2) .label': '— Zaměření',
+                    '.hero__stat:nth-child(2) .value': 'Hokej · golf · tenis<small>NHL, KHL, česká extraliga, ATP, PGA.</small>',
+                    '.hero__stat:nth-child(3) .label': '— Zázemí',
+                    '.hero__stat:nth-child(3) .value': 'Ostrava, Česká republika<small>Beskydy Golf Club · hlavní trenér.</small>',
+                    '.services__head .section-tag': '— 01 / Metoda',
+                    '.services__head h2': 'Tři <span class="accent">pilíře.</span><br>Jeden systém.',
+                    '.service:nth-child(1) .service__num': '01 / Síla',
+                    '.service:nth-child(1) .service__title': 'Síla<br>&amp; výkon',
+                    '.service:nth-child(1) .service__sub': '— Základ pro výkon',
+                    '.service:nth-child(1) .service__text': 'Síla postavená na kvalitním pohybu, stabilitě a postupném zatížení. Trénink se řídí sezonou, takže v přípravě buduje výkon a během soutěží ho pomáhá udržet.',
+                    '.service:nth-child(2) .service__num': '02 / Rychlost',
+                    '.service:nth-child(2) .service__title': 'Start<br>&amp; pohyb',
+                    '.service:nth-child(2) .service__sub': '— Rychlost a změny směru',
+                    '.service:nth-child(2) .service__text': 'První krok, akcelerace, změny směru, plyometrie a reakce. Právě tady se síla převádí do situací, které rozhodují na ledě, kurtu nebo hřišti.',
+                    '.service:nth-child(3) .service__num': '03 / Odolnost',
+                    '.service:nth-child(3) .service__title': 'Zdraví<br>&amp; návratnost',
+                    '.service:nth-child(3) .service__sub': '— Dlouhodobá výkonnost',
+                    '.service:nth-child(3) .service__text': 'Mobilita, stabilita, práce s tkáněmi, regenerace a řízení zátěže. Cílem není jen trénovat víc, ale trénovat tak, aby tělo zvládalo sezonu dlouhodobě.',
+                    '.certs__head .section-tag': '— 02 / Vzdělání',
+                    '.certs__head h2': 'Vzdělání<br>&amp; <span class="accent">certifikace.</span>',
+                    '.certs__head p': 'Odborný základ v tělesné výchově a sportu doplněný specializací na sílu, rychlost, plánování zátěže a práci se sportovci v praxi.',
+                    '.certs .cert-row:nth-child(1) .cert-row__title': 'Ostravská univerzita<small>Pedagogická fakulta — tělesná výchova &amp; sport</small>',
+                    '.certs .cert-row:nth-child(1) .cert-row__tag': 'Vzdělání',
+                    '.certs .cert-row:nth-child(2) .cert-row__title': 'Specializace na sílu &amp; rychlost<small>Rozvoj výkonu, dynamiky a rychlostních schopností</small>',
+                    '.certs .cert-row:nth-child(2) .cert-row__tag': 'Cert.',
+                    '.certs .cert-row:nth-child(3) .cert-row__title': 'Plánování sportovní přípravy<small>Periodizace, tréninkový plán a řízení zátěže</small>',
+                    '.certs .cert-row:nth-child(3) .cert-row__tag': 'Cert.',
+                    '.certs .cert-row:nth-child(4) .cert-row__title': 'První pomoc ve sportu<small>Okamžitá reakce, základní ošetření a návrat k tréninku</small>',
+                    '.certs .cert-row:nth-child(4) .cert-row__tag': 'Cert.',
+                    '.certs .cert-row:nth-child(5) .cert-row__title': 'Beskydy Golf Club<small>Hlavní kondiční trenér — aktuální působení</small>',
+                    '.certs .cert-row:nth-child(5) .cert-row__tag': 'Aktivní',
+                    '.roster-intro h2': 'Špičkoví<br><span class="accent">sportovci.</span>',
+                    '.roster-intro .section-tag': '— 03 / Aktivní &amp; alumni',
+                    '.roster-intro__meta p': 'Výběr sportovců, kteří se připravovali na ligové soutěže, reprezentaci i profesionální sezony. Hokej, golf, tenis — od talentované mládeže až po NHL.',
+                    '.roster-divider:nth-of-type(1) .label-line': '— Sekce A',
+                    '.roster-divider:nth-of-type(1) .roster-divider__title': '<span class="label-line">— Sekce A</span>Mistři<br>světa<span class="num">04 sportovci</span>',
+                    '.roster-divider:nth-of-type(2) .roster-divider__title': '<span class="label-line">— Sekce B</span>Profi<br>hokej<span class="num">12 sportovců</span>',
+                    '.roster-divider:nth-of-type(3) .roster-divider__title': '<span class="label-line">— Sekce C</span>Golf<br>&amp; tenis<span class="num">03 sportovci</span>',
+                    '.roster-progress span:first-child': 'Sportovci',
+                    '.athlete-card:nth-of-type(1) .athlete-card__team': '<strong>Česká reprezentace</strong>Mistr světa 2024',
+                    '.athlete-card:nth-of-type(2) .athlete-card__team': '<strong>Česká reprezentace</strong>Mistr světa 2024',
+                    '.athlete-card:nth-of-type(3) .athlete-card__team': '<strong>Česká reprezentace</strong>Mistr světa 2024',
+                    '.athlete-card:nth-of-type(4) .athlete-card__team': '<strong>Česká reprezentace</strong>Mistr světa 2024',
+                    '.athlete-card:nth-of-type(5) .athlete-card__team': '<strong>Dallas Stars</strong>Útočník',
+                    '.athlete-card:nth-of-type(6) .athlete-card__team': '<strong>Toronto</strong>Obránce',
+                    '.athlete-card:nth-of-type(7) .athlete-card__team': '<strong>HC Innsbruck</strong>Útočník',
+                    '.athlete-card:nth-of-type(8) .athlete-card__team': '<strong>Medvescak Zagreb</strong>Obránce',
+                    '.athlete-card:nth-of-type(9) .athlete-card__team': '<strong>HC Novosibirsk</strong>Obránce',
+                    '.athlete-card:nth-of-type(10) .athlete-card__team': '<strong>HC Třinec</strong>Obránce',
+                    '.athlete-card:nth-of-type(11) .athlete-card__team': '<strong>NHL veterán</strong>Útočník',
+                    '.athlete-card:nth-of-type(12) .athlete-card__team': '<strong>Česká extraliga</strong>Útočník',
+                    '.athlete-card:nth-of-type(13) .athlete-card__team': '<strong>Česká extraliga</strong>Útočník',
+                    '.athlete-card:nth-of-type(14) .athlete-card__team': '<strong>Česká extraliga</strong>Útočník',
+                    '.athlete-card:nth-of-type(15) .athlete-card__team': '<strong>Česká extraliga</strong>Útočník',
+                    '.athlete-card:nth-of-type(16) .athlete-card__team': '<strong>Česká extraliga</strong>Útočník',
+                    '.athlete-card:nth-of-type(17) .athlete-card__team': '<strong>Prague Golf Team</strong>Profesionál',
+                    '.athlete-card:nth-of-type(18) .athlete-card__team': '<strong>Davis Cup (bývalý)</strong>Tenis',
+                    '.athlete-card:nth-of-type(19) .athlete-card__team': '<strong>Profesionál</strong>Tenis',
+                    '.record__head .section-tag': '— 04 / Sportovní kariéra',
+                    '.record__head h2': 'Výkon zná<br><span class="accent">ze hry.</span>',
+                    '.record__head p': 'Před trenérskou prací prošel soutěžním florbalem na nejvyšší domácí i mezinárodní úrovni. Díky tomu rozumí výkonu nejen z tréninku, ale i ze zápasu.',
+                    '.record .cert-row:nth-child(1) .cert-row__title': 'Mistrovství světa U21 ve florbale<small>Vicemistr světa · česká reprezentace</small>',
+                    '.record .cert-row:nth-child(1) .cert-row__tag': 'Stříbro',
+                    '.record .cert-row:nth-child(2) .cert-row__title': 'Česká reprezentace<small>Seniorský tým — reprezentační působení 2013-2015</small>',
+                    '.record .cert-row:nth-child(2) .cert-row__tag': 'Národní tým',
+                    '.record .cert-row:nth-child(3) .cert-row__title': 'Česká extraliga — florbal<small>Mistr · nejvyšší domácí titul</small>',
+                    '.record .cert-row:nth-child(3) .cert-row__tag': 'Zlato',
+                    '.record .cert-row:nth-child(4) .cert-row__title': 'Česká extraliga — florbal<small>Tři finálová umístění v řadě</small>',
+                    '.record .cert-row:nth-child(4) .cert-row__tag': '3× stříbro',
+                    '.contact__lead': 'Trénuj<br><span class="accent">s cílem.</span>',
+                    '.contact__col:nth-child(3) .label': '— Praxe',
+                    '.contact__base span:nth-child(2)': 'Síla · rychlost · zdraví',
+                    '.contact__base span:nth-child(3)': 'Edice 02 — Ostrava, CZ'
+                }
+            },
+            en: {
+                toggle: 'CZ',
+                statusMessages: ['PRIMING SESSION…', 'CALIBRATING LOAD…', 'MAPPING ATHLETES…', 'SYNC OK', 'READY'],
+                html: {
+                    '.preloader__top span:first-child': 'PERFORMANCE // CALIBRATION',
+                    '.preloader__top span:last-child': 'RP METHOD · 2026',
+                    '.preloader__title': '<em>Radim</em> Polasek',
+                    '.preloader__bottom span:nth-child(2)': 'CONDITIONING · STRENGTH · SPEED',
+                    '.nav__menu a[href="#services"]': 'Services',
+                    '.nav__menu a[href="#certs"]': 'Certifications',
+                    '.nav__menu a[href="#roster"]': 'Roster',
+                    '.nav__menu a[href="#record"]': 'Record',
+                    '.nav__cta': 'Contact',
+                    '.hero__top div:nth-child(1)': '<span class="accent-bar"></span>Performance System — 2026',
+                    '.hero__top div:nth-child(2)': 'Conditioning Coach · Elite Athletes',
+                    '.hero__top div:nth-child(3)': 'Ostrava, CZ · Hockey / Golf / Tennis',
+                    '.hero-row:nth-child(2) > span': 'Polasek',
+                    '.hero__role-text': 'Conditioning Coach<small>— Strength · Speed · Resilience for elite sport</small>',
+                    '.hero__portrait-vertical': 'Performance — CZ / 2026',
+                    '.hero__portrait-meta': 'method',
+                    '.hero__stat:nth-child(1) .label': '— Practice',
+                    '.hero__stat:nth-child(1) .value': 'Conditioning &amp; Physical Preparation<small>Periodised, sport-specific, measurable.</small>',
+                    '.hero__stat:nth-child(2) .label': '— Specialty',
+                    '.hero__stat:nth-child(2) .value': 'Hockey · Golf · Tennis<small>NHL, KHL, Czech Extraliga, ATP, PGA.</small>',
+                    '.hero__stat:nth-child(3) .label': '— Base',
+                    '.hero__stat:nth-child(3) .value': 'Ostrava, Czech Republic<small>Beskydy Golf Club · Head Coach.</small>',
+                    '.services__head .section-tag': '— 01 / The Practice',
+                    '.services__head h2': 'Three <span class="accent">disciplines.</span><br>One programme.',
+                    '.service:nth-child(1) .service__num': '01 / Strength',
+                    '.service:nth-child(1) .service__title': 'Power<br>&amp; Force',
+                    '.service:nth-child(1) .service__sub': '— Foundational lifts',
+                    '.service:nth-child(1) .service__text': 'Compound strength built on push, pull, squat and hinge. Programmed in cycles that respect the competitive calendar — heavy off-season, refined in-season — with functional patterns that transfer directly to ice, fairway and court.',
+                    '.service:nth-child(2) .service__num': '02 / Speed',
+                    '.service:nth-child(2) .service__title': 'Acceleration<br>&amp; Agility',
+                    '.service:nth-child(2) .service__sub': '— Velocity training',
+                    '.service:nth-child(2) .service__text': 'First-step quickness, change-of-direction mechanics, plyometric power, reactive sprint work. The sport-specific velocity layer that turns prepared muscle into competitive separation.',
+                    '.service:nth-child(3) .service__num': '03 / Resilience',
+                    '.service:nth-child(3) .service__title': 'Injury<br>Prevention',
+                    '.service:nth-child(3) .service__sub': '— Longevity protocols',
+                    '.service:nth-child(3) .service__text': 'Joint integrity, controlled mobility, tissue capacity, recovery architecture. The disciplined work that keeps a professional athlete performing long term.',
+                    '.certs__head .section-tag': '— 02 / Credentials',
+                    '.certs__head h2': 'Education<br>&amp; <span class="accent">certification.</span>',
+                    '.certs__head p': 'A formal foundation in physical education and movement science, layered with specialised coursework in strength, speed and sport preparation.',
+                    '.certs .cert-row:nth-child(1) .cert-row__title': 'University of Ostrava<small>Faculty of Education — Physical Education &amp; Sport</small>',
+                    '.certs .cert-row:nth-child(1) .cert-row__tag': 'Degree',
+                    '.certs .cert-row:nth-child(2) .cert-row__title': 'Strength &amp; Speed Specialist<small>Advanced certification — power and velocity development</small>',
+                    '.certs .cert-row:nth-child(2) .cert-row__tag': 'Cert',
+                    '.certs .cert-row:nth-child(3) .cert-row__title': 'Systematic Conditioning Planning<small>Periodisation, programming and load management</small>',
+                    '.certs .cert-row:nth-child(3) .cert-row__tag': 'Cert',
+                    '.certs .cert-row:nth-child(4) .cert-row__title': 'First Aid in Sports<small>On-field response, injury triage, return-to-play protocols</small>',
+                    '.certs .cert-row:nth-child(4) .cert-row__tag': 'Cert',
+                    '.certs .cert-row:nth-child(5) .cert-row__title': 'Beskydy Golf Club<small>Head Conditioning Coach — current appointment</small>',
+                    '.certs .cert-row:nth-child(5) .cert-row__tag': 'Active',
+                    '.roster-intro h2': 'Elite<br><span class="accent">roster.</span>',
+                    '.roster-intro .section-tag': '— 03 / Active &amp; alumni',
+                    '.roster-intro__meta p': 'A selection of professionals trained for league competition, international duty, and tour seasons. Hockey, golf, tennis — from junior development to the NHL.',
+                    '.roster-divider:nth-of-type(1) .roster-divider__title': '<span class="label-line">— Section A</span>World<br>Champions<span class="num">04 athletes</span>',
+                    '.roster-divider:nth-of-type(2) .roster-divider__title': '<span class="label-line">— Section B</span>Pro<br>Hockey<span class="num">12 athletes</span>',
+                    '.roster-divider:nth-of-type(3) .roster-divider__title': '<span class="label-line">— Section C</span>Golf<br>&amp; Tennis<span class="num">03 athletes</span>',
+                    '.roster-progress span:first-child': 'Roster',
+                    '.athlete-card:nth-of-type(1) .athlete-card__team': '<strong>Czech National Team</strong>World Champion 2024',
+                    '.athlete-card:nth-of-type(2) .athlete-card__team': '<strong>Czech National Team</strong>World Champion 2024',
+                    '.athlete-card:nth-of-type(3) .athlete-card__team': '<strong>Czech National Team</strong>World Champion 2024',
+                    '.athlete-card:nth-of-type(4) .athlete-card__team': '<strong>Czech National Team</strong>World Champion 2024',
+                    '.athlete-card:nth-of-type(5) .athlete-card__team': '<strong>Dallas Stars</strong>Forward',
+                    '.athlete-card:nth-of-type(6) .athlete-card__team': '<strong>Toronto</strong>Defender',
+                    '.athlete-card:nth-of-type(7) .athlete-card__team': '<strong>HC Innsbruck</strong>Forward',
+                    '.athlete-card:nth-of-type(8) .athlete-card__team': '<strong>Medvescak Zagreb</strong>Defender',
+                    '.athlete-card:nth-of-type(9) .athlete-card__team': '<strong>HC Novosibirsk</strong>Defender',
+                    '.athlete-card:nth-of-type(10) .athlete-card__team': '<strong>HC Třinec</strong>Defender',
+                    '.athlete-card:nth-of-type(11) .athlete-card__team': '<strong>NHL veteran</strong>Forward',
+                    '.athlete-card:nth-of-type(12) .athlete-card__team': '<strong>Czech Extraliga</strong>Forward',
+                    '.athlete-card:nth-of-type(13) .athlete-card__team': '<strong>Czech Extraliga</strong>Forward',
+                    '.athlete-card:nth-of-type(14) .athlete-card__team': '<strong>Czech Extraliga</strong>Forward',
+                    '.athlete-card:nth-of-type(15) .athlete-card__team': '<strong>Czech Extraliga</strong>Forward',
+                    '.athlete-card:nth-of-type(16) .athlete-card__team': '<strong>Czech Extraliga</strong>Forward',
+                    '.athlete-card:nth-of-type(17) .athlete-card__team': '<strong>Prague Golf Team</strong>Professional',
+                    '.athlete-card:nth-of-type(18) .athlete-card__team': '<strong>Davis Cup (former)</strong>Tennis',
+                    '.athlete-card:nth-of-type(19) .athlete-card__team': '<strong>Professional</strong>Tennis',
+                    '.record__head .section-tag': '— 04 / Personal Record',
+                    '.record__head h2': 'Played the<br>game <span class="accent">first.</span>',
+                    '.record__head p': 'Before coaching, a competitive career in floorball at the highest national and international level. Understanding performance from the inside.',
+                    '.record .cert-row:nth-child(1) .cert-row__title': 'U21 Floorball World Championship<small>Vice-champion · Czech Republic national squad</small>',
+                    '.record .cert-row:nth-child(1) .cert-row__tag': 'Silver',
+                    '.record .cert-row:nth-child(2) .cert-row__title': 'Czech National Team<small>Senior squad — 2013 to 2015 caps</small>',
+                    '.record .cert-row:nth-child(2) .cert-row__tag': 'National',
+                    '.record .cert-row:nth-child(3) .cert-row__title': 'Czech Extraliga — Floorball<small>Champion · top domestic title</small>',
+                    '.record .cert-row:nth-child(3) .cert-row__tag': 'Gold',
+                    '.record .cert-row:nth-child(4) .cert-row__title': 'Czech Extraliga — Floorball<small>Three consecutive runner-up finishes</small>',
+                    '.record .cert-row:nth-child(4) .cert-row__tag': '3× Silver',
+                    '.contact__lead': 'Train with<br><span class="accent">intention.</span>',
+                    '.contact__col:nth-child(3) .label': '— Practice',
+                    '.contact__base span:nth-child(2)': 'Strength · Speed · Resilience',
+                    '.contact__base span:nth-child(3)': 'Edition 02 — Ostrava, CZ'
+                }
+            }
+        };
+
+        let currentLanguage = 'cs';
+        function applyLanguage(lang) {
+            currentLanguage = lang;
+            root.lang = lang;
+            Object.entries(i18n[lang].html).forEach(([selector, value]) => {
+                const el = document.querySelector(selector);
+                if (el) el.innerHTML = value;
+            });
+            const toggle = document.getElementById('languageToggle');
+            if (toggle) {
+                toggle.textContent = i18n[lang].toggle;
+                toggle.setAttribute('aria-label', lang === 'cs' ? 'Přepnout do angličtiny' : 'Switch to Czech');
+            }
+            const preTitle = document.getElementById('preTitle');
+            if (preTitle) preTitle.dataset.text = lang === 'cs' ? 'Radim Polášek' : 'Radim Polasek';
+            if (window.rosterLayoutReady && typeof setWrapHeight === 'function') {
+                setWrapHeight();
+                ScrollTrigger.refresh();
+            }
+        }
+
+        applyLanguage('cs');
 
         /* ============================================================
            1. PRELOADER — Glitch Storm + split reveal
@@ -2112,7 +2401,7 @@
             // Counter + progress fill. Short enough to feel premium, long enough to keep the reveal impact.
             const TOTAL_MS = 1900;
             const start = performance.now();
-            const statusMessages = ['PRIMING SESSION…', 'CALIBRATING LOAD…', 'MAPPING ATHLETES…', 'SYNC OK', 'READY'];
+            const statusMessages = i18n[currentLanguage].statusMessages;
 
             function tick(now) {
                 const elapsed = now - start;
@@ -2252,11 +2541,15 @@
            5. THEME TOGGLE
            ============================================================ */
         const themeToggle = document.getElementById('themeToggle');
-        const root = document.documentElement;
         themeToggle.addEventListener('click', () => {
             const current = root.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : 'dark';
             root.setAttribute('data-theme', next);
+        });
+
+        const languageToggle = document.getElementById('languageToggle');
+        languageToggle.addEventListener('click', () => {
+            applyLanguage(currentLanguage === 'cs' ? 'en' : 'cs');
         });
 
         /* ============================================================
@@ -2311,6 +2604,7 @@
             wrap.style.height = (window.innerHeight + getScrollDistance()) + 'px';
         }
         setWrapHeight();
+        window.rosterLayoutReady = true;
 
         const horizontalTween = gsap.to(track, {
             x: () => -getScrollDistance(),
@@ -2344,18 +2638,14 @@
             });
         });
 
-        // Card entrance reveals
-        gsap.utils.toArray('.athlete-card, .roster-divider').forEach(card => {
-            gsap.from(card, {
-                opacity: 0, y: 40,
-                duration: 0.8, ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    containerAnimation: horizontalTween,
-                    start: 'left 95%',
-                    toggleActions: 'play none none reverse',
-                }
-            });
+        // Cards load together with the roster intro, so horizontal scrolling never feels empty or stuck.
+        gsap.from('.athlete-card, .roster-divider', {
+            scrollTrigger: { trigger: '.roster-intro', start: 'top 72%' },
+            opacity: 0,
+            y: 34,
+            duration: 0.9,
+            ease: 'power3.out',
+            stagger: 0.035,
         });
 
         /* ============================================================
